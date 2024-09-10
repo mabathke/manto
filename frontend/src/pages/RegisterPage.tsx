@@ -1,6 +1,6 @@
 // src/pages/RegisterPage.tsx
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 interface RegisterFormInputs {
@@ -10,18 +10,38 @@ interface RegisterFormInputs {
 }
 
 const RegisterPage: React.FC = () => {
-  const { register, handleSubmit, watch } = useForm<RegisterFormInputs>();
+  const { register, handleSubmit, watch } = useForm<RegisterFormInputs>(); // Add form input type here
   const navigate = useNavigate();
 
-  const onSubmit = (data: RegisterFormInputs) => {
+  const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     if (data.password !== data.confirmPassword) {
       alert("Passwords don't match!");
       return;
     }
-    
-    // Ideally, you'd send the registration data to your backend here
-    console.log('User registered with:', data);
-    navigate('/login');
+
+    try {
+      const response = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password,
+        }),
+      });
+
+      const result = await response.json();
+      if (response.status === 201) {
+        alert('Registration successful');
+        navigate('/login');
+      } else {
+        alert(result.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('An error occurred');
+    }
   };
 
   return (

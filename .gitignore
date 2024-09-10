@@ -1,23 +1,36 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node modules
+backend/node_modules/
+frontend/node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Dependency lock files
+backend/package-lock.json
+frontend/package-lock.json
 
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Build and output directories
+frontend/build/
+backend/dist/
+
+# Environment variables
+frontend/.env
+backend/.env
+
+# SQLite Database
+backend/data/*.db
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# TypeScript
+backend/*.tsbuildinfo
+frontend/*.tsbuildinfo
+
+# Miscellaneous
+*.swp
